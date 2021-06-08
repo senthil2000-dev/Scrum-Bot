@@ -4,6 +4,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import css from 'rollup-plugin-css-only';
+import preprocess from 'svelte-preprocess';
 const path = require( 'path' )
 const fs = require( 'fs' )
 
@@ -44,15 +45,7 @@ export default {
 				// enable run-time checks when not in production
 				dev: !production
 			},
-			preprocess: {
-				script: ({ content, attributes, filename }) => {
-				  if ( 'string' === typeof attributes.src ) {
-					const file = path.resolve(path.dirname(filename), attributes.src);
-					const code = fs.readFileSync(file, 'utf-8');
-					return {code, dependencies: [file]};
-				  }
-				}
-			}
+			preprocess: preprocess()
 		}),
 		// we'll extract any component CSS out into
 		// a separate file - better for performance
