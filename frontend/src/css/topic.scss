@@ -1,4 +1,78 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+:root {
+  --primary-color: #204f6e;
+  --dark-color: #333333;
+  --light-color: #f4f4f4;
+  --danger-color: #dc3545;
+  --success-color: #28a745;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+a:hover {
+  color: #666;
+}
+
+.card {
+  padding: 2rem;
+  border: #ccc 1px dotted;
+  margin: 0.7rem 0;
+  display: flex;
+  flex-direction: column;
+  background: #424242;
+  color: white;
+}
+
+.btn {
+  display: inline-block;
+  background: var(--light-color);
+  color: #333;
+  padding: 0.4rem 1.3rem;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  margin-right: 0.5rem;
+  transition: opacity 0.2s ease-in;
+  outline: none;
+}
+
+.btn-sm {
+  font-size: 0.8rem;
+  padding: 0.3rem 1rem;
+  margin-right: 0.2rem;
+}
+
+.btn-dark {
+  background: var(--dark-color);
+  color: #fff;
+}
+
+.btn:hover {
+  opacity: 0.8;
+}
+
+input {
+  margin: 1.2rem 0;
+}
+
+input[type='text'] {
+  display: block;
+  width: 100% !important;
+  padding: 0.4rem;
+  font-size: inherit;
+  border: 1px solid #ccc;
+}
 
 h1 {
     color: #ff3e00;
@@ -10,7 +84,12 @@ h1 {
 }
 
 h5 {
-    margin-bottom: 10px;
+    font-size: 1rem;
+    margin: 10px 0;
+}
+
+.card p {
+    margin-bottom: 1rem;
 }
 
 .header, .star {
@@ -19,6 +98,7 @@ h5 {
 
 .tags {
     margin-bottom: 10px;
+    margin-left: 12px;
 }
 
 .tags a {    
