@@ -27,21 +27,32 @@
             >
         </div>
         <div class="form-group">
-          <label for="username">Username</label>
+          <label for="batch">Batch</label>
           <input
-            class="text-input username-input"
-            bind:value="{user.username}"
+            class="text-input batch-input"
+            bind:value="{user.batch}"
             type="text"
-            placeholder="Username"
-            id="username"
+            placeholder="Batch (eg: 2021)"
+            id="batch"
+            required pattern="[0-9]&#123;4&#125;"
+          >
+        </div>
+        <div class="form-group">
+          <label for="name">name</label>
+          <input
+            class="text-input name-input"
+            bind:value="{user.name}"
+            type="text"
+            placeholder="name"
+            id="name"
             required
           >
         </div>
         <div class="form-group">
             <label for="dischandle">Discord username</label>
             <input
-              class="text-input username-input"
-              bind:value="{user.dischandle}"
+              class="text-input name-input"
+              bind:value="{user.discordhandle}"
               type="text"
               placeholder="Discord username"
               id="dischandle"
@@ -49,7 +60,7 @@
             >
         </div>
         <div class="form-group">
-            <label for="email">Password</label>
+            <label for="email">Email</label>
             <input
               class="text-input email-input"
               bind:value="{user.email}"
@@ -74,7 +85,7 @@
             <label for="confirmpassword">Confirm Password</label>
             <input
               class="text-input password-input"
-              bind:value="{user.confirmpassword}"
+              bind:value="{user.password_repeat}"
               type="password"
               placeholder="Reenter password"
               id="confirmpassword"

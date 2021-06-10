@@ -26,7 +26,7 @@ button {
 }
 
 .login {
-	min-height: 100vh;
+	min-height: 85vh;
 	width: 100%; 
 	background-size: cover;
 	font-size: 1rem;
@@ -120,7 +120,7 @@ form {
 }
 
 .register-container {
-	margin-top: 6vh;
+	margin: 6vh 0;
 }
 
 @media screen and (max-width: 400px) {

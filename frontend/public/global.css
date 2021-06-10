@@ -25,20 +25,6 @@ a {
   color: inherit;
 }
 
-.navbar {
-  display: flex;
-  text-transform: uppercase;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.7rem 2rem;
-  z-index: 1;
-  width: 100%;
-  opacity: 0.97;
-  position: fixed;
-  top: 0;
-  color: mediumspringgreen;
-}
-
 .btn {
   display: inline-block;
   background: var(--light-color);
@@ -125,12 +111,15 @@ a {
   border: #ccc solid 1px;
 }
 
-.btn:hover {
-  opacity: 0.8;
-}
-
 a {
   text-decoration: none;
+}
+
+.talks-container {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin: 2rem auto;
 }
 
 @media screen and (max-width: 600px) {

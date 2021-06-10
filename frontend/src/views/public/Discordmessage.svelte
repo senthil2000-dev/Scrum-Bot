@@ -1,5 +1,3 @@
-<h1>Each message page</h1>
-
 <script src='../../js/messages.js'></script>
 
 <Nav/>	
@@ -8,7 +6,7 @@
         on:addtag={addtag}
         id={message.id}
         date={message.date}
-        username={message.username}
+        name={message.name}
         upvotes={message.upvotes}
         topic={message.topic} 
         desc={message.desc}
@@ -19,7 +17,7 @@
 		{#each replies as topic}
 		<Reply
 			id={topic.id}
-			username={topic.username}
+			name={topic.name}
 			desc={topic.desc}/>
 		{/each}
 	{/if}

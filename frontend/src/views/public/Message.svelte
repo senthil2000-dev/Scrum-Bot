@@ -7,7 +7,7 @@
 		</h1>
 		<h3>{upvotes} upvotes</h3>
 	</div>
-	<h5>By {username} on {date}</h5>
+	<h5>By {name} on {date}</h5>
     <p>{desc}</p>
 	<div class="tags">
 		<p>

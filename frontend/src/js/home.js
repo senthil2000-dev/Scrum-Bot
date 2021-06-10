@@ -3,7 +3,7 @@ import Topic from '../../views/public/Topic.svelte';
 let topics = [
 {
   id: 1,
-  username: "Ajitha",
+  name: "Ajitha",
   upvotes: 20,
   topic: "react",
   keywords: ["React", "webrtc", "lexer"],
@@ -12,7 +12,7 @@ let topics = [
 },
 {
   id: 2,
-  username: "Pradeep",
+  name: "Pradeep",
   upvotes: 20,
   topic: "vue",
   keywords: ["Vue", "webrtc", "lexer"],
@@ -21,7 +21,7 @@ let topics = [
 },
 {
   id: 3,
-  username: "Bestin",
+  name: "Bestin",
   upvotes: 200,
   topic: "lightning talks",
   keywords: ["Algos", "peerjs", "parser"],
@@ -30,7 +30,7 @@ let topics = [
 },
 {
   id: 4,
-  username: "Bestin",
+  name: "Bestin",
   upvotes: 200,
   topic: "lightning talks",
   keywords: ["Algos", "peerjs", "parser"],
@@ -39,7 +39,7 @@ let topics = [
 },
 {
   id: 5,
-  username: "Pradeep",
+  name: "Pradeep",
   upvotes: 20,
   topic: "vue",
   keywords: ["Vue", "webrtc", "lexer"],
@@ -48,7 +48,7 @@ let topics = [
 },
 {
   id: 6,
-  username: "Ajitha",
+  name: "Ajitha",
   upvotes: 20,
   topic: "react",
   keywords: ["React", "webrtc", "lexer"],

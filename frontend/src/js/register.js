@@ -2,7 +2,7 @@
 
 import Nav from '../../views/public/Nav.svelte';
 
-let user = { username: '', email:'', rollno:'', password: '', confirmpassword: '', dischandle: ''}
+let user = { name: '', email:'', rollno:'', password: '', password_repeat: '', discordhandle: '', batch:''}
 let inProgress = false
 let error = null
 

@@ -8,7 +8,7 @@
 		<Topic
 			id={topic.id}
 			date={topic.date}
-			username={topic.username}
+			name={topic.name}
 			upvotes={topic.upvotes}
 			topic={topic.topic} 
 			desc={topic.desc}

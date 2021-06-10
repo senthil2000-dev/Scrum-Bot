@@ -1,2 +1,2 @@
-export let username;
+export let name;
 export let desc;

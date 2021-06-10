@@ -1,5 +1,5 @@
 export let topic;
-export let username;
+export let name;
 export let upvotes;
 export let keywords;
 export let id;
