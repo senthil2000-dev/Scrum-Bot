@@ -1,4 +1,4 @@
-<script src='../../js/lightningtalks.js'></script>
+<script src='../../js/data/lightningtalks.js'></script>
 <style src="../../css/addtalk.scss" lang="scss"></style>
 <Nav/>	
 <div class="talks-container">

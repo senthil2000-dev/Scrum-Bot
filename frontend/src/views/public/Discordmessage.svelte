@@ -1,4 +1,4 @@
-<script src='../../js/messages.js'></script>
+<script src='../../js/data/messages.js'></script>
 
 <Nav/>	
 <section class="container">

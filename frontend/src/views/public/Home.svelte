@@ -1,4 +1,4 @@
-<script src='../../js/home.js'></script>
+<script src='../../js/data/home.js'></script>
 <Nav/>	
 <section class="container">
 	{#if topics.length === 0}
