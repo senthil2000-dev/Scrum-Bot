@@ -1,0 +1,130 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css');
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&display=swap');
+
+::placeholder {
+	color: #ddd;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	color: #ddd;
+	font-family: 'Montserrat', sans-serif;
+}
+
+input,
+button {
+	display:inline-block;
+	width: 100%;
+	height: 3.23rem;
+	border: none;
+	outline: none;
+	border-radius: 100px;
+	background: rgba(#fff, .15);
+}
+
+.login {
+	min-height: 85vh;
+	width: 100%; 
+	background-size: cover;
+	font-size: 1rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	
+	.login-container {
+		width: 100%;  
+		background:darkgreen;
+		position: relative;
+		width: 90%;
+		max-width: 420px;
+		padding: 24px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		border-radius: 40px;
+	}
+	
+	.title {
+		font-size: 1.8rem;
+		letter-spacing: 1px;
+	}
+	
+	.separator {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		
+		span {
+			display:block;
+			width: 100%;
+			height: 1px;
+			background: #ddd;
+			margin: 1.5rem;
+		}
+	}  
+}
+
+
+form {
+	width: 100%;
+	
+	.form-group{
+		margin-bottom: 1.5rem;
+		
+		label {
+			display: block;
+			letter-spacing: .5px;
+			margin-bottom: 0.5rem;
+			padding-left: 1.5rem;
+			color: dark-blue;
+		}
+		
+		input {
+			letter-spacing: .5px;
+			font-size: 1.1rem;
+			padding: 0 1.5rem;
+		}    
+	}
+}
+
+.signup-button {
+	background: #ecbb08;
+	color: #023262;
+	font-size: 1.3rem;
+	font-weight: bold;
+	letter-spacing: 1px;
+	cursor: pointer;
+	margin: 1rem 0;
+	transition: all .3s linear;
+	
+	&:hover{
+		background: #ffc800;
+		opacity: .8;
+	}
+}
+
+.additional-act {
+	width: 100%;
+	text-align: center;
+	letter-spacing: .7px;
+	margin: .5rem 0;
+	
+	span {
+		color: #ecbb08;
+		cursor: pointer;
+	}
+}
+
+.register-container {
+	margin: 6vh 0;
+}
+
+@media screen and (max-width: 400px) {
+    .register-container {
+        margin: 18vh 0;
+    }
+}
