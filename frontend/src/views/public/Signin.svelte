@@ -42,12 +42,14 @@
           class="signup-button"
           disabled="{inProgress}"
         >
-          SIGN UP
+          SIGN IN
         </button>
       </form>
       <p class="additional-act">Don't have an account? <a href="/register"><span>Register</span></a></p>
   </div>
 </section>
-
+<ToastContainer placement="bottom-right" let:data={data}>
+  <FlatToast {data} />
+</ToastContainer>
 <style src="../../css/login.scss" lang="scss"></style>
 <script src='../../js/login.js'></script>

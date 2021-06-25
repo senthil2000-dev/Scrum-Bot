@@ -38,12 +38,12 @@
           >
         </div>
         <div class="form-group">
-          <label for="name">name</label>
+          <label for="name">Name</label>
           <input
             class="text-input name-input"
             bind:value="{user.name}"
             type="text"
-            placeholder="name"
+            placeholder="Name"
             id="name"
             required
           >
@@ -52,21 +52,10 @@
             <label for="dischandle">Discord username</label>
             <input
               class="text-input name-input"
-              bind:value="{user.discordhandle}"
+              bind:value="{user.discordHandle}"
               type="text"
               placeholder="Discord username"
               id="dischandle"
-              required
-            >
-        </div>
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input
-              class="text-input email-input"
-              bind:value="{user.email}"
-              type="email"
-              placeholder="Email"
-              id="email"
               required
             >
         </div>
