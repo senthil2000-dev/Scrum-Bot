@@ -42,7 +42,11 @@
           class="signup-button"
           disabled="{inProgress}"
         >
-          SIGN IN
+          {#if inProgress}
+            <img class="wait" src="https://i.stack.imgur.com/AfStP.gif" alt="loading..">
+          {:else}
+            SIGN IN
+          {/if}
         </button>
       </form>
       <p class="additional-act">Don't have an account? <a href="/register"><span>Register</span></a></p>

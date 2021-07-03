@@ -85,12 +85,18 @@
           class="signup-button"
           disabled="{inProgress}"
         >
+        {#if inProgress}
+          <img class="wait" src="https://i.stack.imgur.com/AfStP.gif" alt="loading..">
+        {:else}
           SIGN UP
+        {/if}
         </button>
       </form>
       <p class="additional-act">Already have an account? <a href="/login"><span>Login</span></a></p>
   </div>
 </section>
-
+<ToastContainer placement="bottom-right" let:data={data}>
+  <FlatToast {data} />
+</ToastContainer>
 <style src="../../css/login.scss" lang="scss"></style>
 <script src='../../js/register.js'></script>

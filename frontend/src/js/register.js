@@ -22,22 +22,12 @@ async function submit () {
         window.location.href = '/';
         inProgress = false;
         error = null;
-        toasts.add({
-            title: 'Success!',
-            description: response.data.message,
-            duration: 10000, // 0 or negative to avoid auto-remove
-            placement: 'bottom-right',
-            type: 'success',
-            showProgress: true
-        });
     })
     .catch(err => {
         let error = 'Something went wrong, please try again!';
         console.log(err);
         if (err.response) {
-            error = err.response.data.message;
-        } else if (err.request) {
-            error = err.request.data.message;
+            error = err.response.data.detail[0].msg;
         }
         inProgress = false;
         toasts.add({
