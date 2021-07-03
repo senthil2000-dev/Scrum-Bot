@@ -11,13 +11,13 @@
             </h1>
         </div>
         <ul class="navbar__links desktop">
-            <li><a href="/lightningtalks">LIGHTNING TALKS</a></li>
+            <li><a href="/scrum">SCRUMS</a></li>
             <li><a href="/register">REGISTER</a></li>
             <li><a href="/login">LOGIN</a></li>
         </ul>       
         {#if disp}
             <ul class="navbar__links mobile">
-                <li><a href="/lightningtalks">LIGHTNING TALKS</a></li>
+                <li><a href="/scrum">SCRUMS</a></li>
                 <li><a href="/register">REGISTER</a></li>
                 <li><a href="/login">LOGIN</a></li>
             </ul>           
