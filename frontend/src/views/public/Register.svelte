@@ -38,12 +38,12 @@
           >
         </div>
         <div class="form-group">
-          <label for="name">name</label>
+          <label for="name">Name</label>
           <input
             class="text-input name-input"
             bind:value="{user.name}"
             type="text"
-            placeholder="name"
+            placeholder="Name"
             id="name"
             required
           >
@@ -52,21 +52,10 @@
             <label for="dischandle">Discord username</label>
             <input
               class="text-input name-input"
-              bind:value="{user.discordhandle}"
+              bind:value="{user.discordHandle}"
               type="text"
               placeholder="Discord username"
               id="dischandle"
-              required
-            >
-        </div>
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input
-              class="text-input email-input"
-              bind:value="{user.email}"
-              type="email"
-              placeholder="Email"
-              id="email"
               required
             >
         </div>
@@ -96,12 +85,18 @@
           class="signup-button"
           disabled="{inProgress}"
         >
+        {#if inProgress}
+          <img class="wait" src="https://i.stack.imgur.com/AfStP.gif" alt="loading..">
+        {:else}
           SIGN UP
+        {/if}
         </button>
       </form>
       <p class="additional-act">Already have an account? <a href="/login"><span>Login</span></a></p>
   </div>
 </section>
-
+<ToastContainer placement="bottom-right" let:data={data}>
+  <FlatToast {data} />
+</ToastContainer>
 <style src="../../css/login.scss" lang="scss"></style>
 <script src='../../js/register.js'></script>

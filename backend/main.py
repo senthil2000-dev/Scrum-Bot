@@ -3,7 +3,7 @@ from fastapi.param_functions import Depends
 import uvicorn
 from fastapi import FastAPI, Header, Request, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-
+from fastapi.middleware.cors import CORSMiddleware
 from app.events import createStartAppHandler, createStopAppHandler
 from routes.auth import router as member_router
 from routes.bot import router as bot_router
@@ -13,6 +13,15 @@ if __name__ == "__main__":
 
 app = FastAPI(debug=True)
 
+origins = ["http://localhost:5000"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(member_router, tags=["auth"], prefix="/auth")
 app.include_router(bot_router, tags=["bot"], prefix="/bot")
