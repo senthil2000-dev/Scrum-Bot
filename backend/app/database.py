@@ -1,19 +1,12 @@
-import motor.motor_asyncio
-from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
+from mongoengine import connect, disconnect
+import logging
 
-MONGO_DETAILS = ""
+from .config import MONGO_URI
 
-client = AsyncIOMotorClient
-database = AsyncIOMotorDatabase
+def createConnection():
+    connect(host=MONGO_URI)
+    logging.info("Connected to the database %s", MONGO_URI)
 
-
-def init_db(mongo_uri): 
-  global client
-  global database
-  print("Setting up database")
-  client =  motor.motor_asyncio.AsyncIOMotorClient(mongo_uri)
-  database =  client.scrumbot
-  return
-
-# student_collection = database.get_collection("students_collection")
-
+def closeConnection():
+    disconnect()
+    logging.info("Disconnected from the database %s", MONGO_URI)
