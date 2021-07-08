@@ -8,6 +8,7 @@ _path = _dir_path + "/../.env"
 config = dotenv_values(_path)
 
 # general
+FRONTEND_URL=config.get("FRONTEND_URL")
 PROJECT_NAME=config.get("PROJECT_NAME") \
             if config.get("PROJECT_NAME") \
             else "Scrum_Bot"
