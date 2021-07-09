@@ -14,6 +14,7 @@
     {#if replies.length === 0}
 		<p>No replies</p>
 	{:else}
+	    <h1>{replies.length} Replies</h1>
 		{#each replies as topic}
 		<Reply
 			id={topic.id}

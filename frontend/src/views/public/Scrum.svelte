@@ -19,13 +19,10 @@
       <p>
         <a href="#/" class="icon-link mr-3 author"><img src="https://cdn4.iconfinder.com/data/icons/web-app-flat-circular-icons-set/64/Iconos_Redondos_Flat_Escribir_Icn-512.png" class="pencil" alt="">{author}</a>
       </p>
-      <p class="content">{content.substring(0, length)}
-        {#if ellipses}....{/if}
-      </p>
-      <a href="#/" on:click="{read}" class="btn btn--with-icon"><i class="btn-icon">&nbsp;</i>{#if ellipses}READ MORE{:else}READ LESS{/if}</a>
+      <a href="/scrum_no/{id}" class="btn btn--with-icon"><i class="btn-icon">&nbsp;</i>READ MORE</a>
     </div>
   </article>
 </div>
 
 <style src="../../css/lightningtalk.scss" lang="scss"></style>
-<script src='../../js/lightningtalk.js'></script>
+<script src='../../js/scrum.js'></script>
