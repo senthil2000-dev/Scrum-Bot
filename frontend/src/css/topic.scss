@@ -47,12 +47,6 @@ a:hover {
   outline: none;
 }
 
-.btn-sm {
-  font-size: 0.8rem;
-  padding: 0.3rem 1rem;
-  margin-right: 0.2rem;
-}
-
 .btn-dark {
   background: var(--dark-color);
   color: #fff;
@@ -75,12 +69,13 @@ input[type='text'] {
 }
 
 h1 {
-    color: #ff3e00;
-    text-transform: uppercase;
-    font-size: 2em;
-    font-weight: 100;
-    flex: 1;
-    font-family: 'Raleway';
+  color: mediumspringgreen;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 10px 0;
+  flex: 1;
+  font-family: 'Raleway';
 }
 
 h5 {

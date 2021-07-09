@@ -114,7 +114,8 @@ def findAllScrumsBetweenGivenInterval(start: datetime, end: datetime, **kwargs):
         scrums: List[ScrumInDBSchema] = findAllScrums(excludeMessages=True)
 
         # filter the scrums
-        scrums = [scrum for scrum in scrums if scrum.created_at > start and scrum.created_at < end]
+        print(scrums[0].created_at)
+        scrums = [scrum for scrum in scrums if datetime.strptime(scrum.created_at, "%d %b %Y") > start and datetime.strptime(scrum.created_at, "%d %b %Y") < end]
         resp = [scrum.dict(exclude={"mongoDocument"}) for scrum in scrums]
 
         if not isResponseParsed:

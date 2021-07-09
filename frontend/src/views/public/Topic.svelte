@@ -4,12 +4,12 @@
 	  <div>
 		<h1>{topic}</h1>
 		<h3>By {name}</h3>
-		<p>{desc}...</p>
+		<p>{desc.substr(0, 20)}...</p>
 		<div class="date">{date}</div>
 		<div class="tags">
 			<p>
 				{#each keywords as key}
-					<a href='#{key}'>{key}</a>
+					<a href='#/'>{key}</a>
 				{/each}
 			</p>
 		</div>
