@@ -9,7 +9,7 @@ const routes = [
   {name: '/login', component: Signin},
   {name: '/register', component: Register},
   {name: '/scrum', component: Talks},
-  { name: '/:filterType/:value/:limit/:offset', component: Home },
+  { name: '/:offset/:limit/:filterType/:value', component: Home },
 ]
 
 export { routes }

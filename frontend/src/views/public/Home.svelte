@@ -11,13 +11,13 @@
 		{:else}
 			{#each topics as topic}
 			<Topic
-				id={topic.id}
+				id={topic.messageId}
+				num={topic.replies.length}
 				date={topic.date}
-				name={topic.name}
-				upvotes={topic.upvotes}
-				topic={topic.topic} 
-				desc={topic.desc}
-				keywords = {topic.keywords}/>
+				name={topic.author.name}
+				topic={"Scrum"} 
+				desc={topic.message}
+				keywords = {topic.tags}/>
 			{/each}
 		{/if}	
 	</section>

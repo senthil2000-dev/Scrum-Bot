@@ -1,14 +1,15 @@
 from datetime import datetime
 import logging
 from typing import Union
+from bson import ObjectId
 from enum import Enum, auto
 
-from schema.messages import CreateMessageSchema, UpdateMessageSchema, DeleteMessageSchema
+from schema.messages import CreateMessageSchema, MessageInDbSchema, UpdateMessageSchema, DeleteMessageSchema, messageListHelper
 from schema.members import MemberInDBSchema
 
 from models.messages import Message
 
-from controllers.members import getMemberFromDiscordHandle
+from controllers.members import getMemberFromDiscordHandle, getMemberWithGivenId
 from controllers.constants import findCurrentScrum
 from controllers.scrum import addMessageToScrum
 
@@ -34,7 +35,7 @@ def AddMessageToDataBase(message: CreateMessageSchema, **kwargs):
 
         logging.info("Got the response of {}, while creating a new message".format(resp.value))
 
-        if resp == MessageControllerHelper.Success:
+        if resp == MessageControllerHelperForBot.Success:
             if isResponseParsed:
                 return parseControllerResponse(data=True, statuscode=200, message="Message added successfully")
             return True
@@ -53,7 +54,7 @@ def AddMessageToDataBase(message: CreateMessageSchema, **kwargs):
         #         )
         #     return False
         
-        if resp == MessageControllerHelper.ParentMessageNotFound:
+        if resp == MessageControllerHelperForBot.ParentMessageNotFound:
             # parent message for reply isn't found,
             # something went wrong in the bot side
             # log reqd data, and return 400
@@ -65,8 +66,7 @@ def AddMessageToDataBase(message: CreateMessageSchema, **kwargs):
                 error="Couldn't add the message as the parent message was not found", 
                 )
             return False
-
-        if resp == MessageControllerHelper.MessageIdTaken:
+        if resp == MessageControllerHelperForBot.MessageIdTaken:
             logging.debug("Couldn't add the message obj {}, \
                 as the message id was taken".format(message.dict()))
             if isResponseParsed:
@@ -126,20 +126,21 @@ def _createNewDiscussionForScrum(message: CreateMessageSchema, author: MemberInD
         newDiscussion.tags = message.tags
         newDiscussion.author = author.mongoDocument
         newDiscussion.replies = []
-        
+        newDiscussion.isDiscussion = True
         newDiscussion.save(force_insert=True)
 
         # add this message to scrum
         addMessageToScrum(message=newDiscussion)
         
-        return MessageControllerHelper.Success
+        return MessageControllerHelperForBot.Success
 
     except AssertionError as err:
         # caused when we improperly called for a reply
         if str(err) == "message is a reply":
-            raise Exception("Tried to create a discussion for a reply, \
+            logging.error("Tried to create a discussion for a reply, \
                 for the message {}".format(message))
-        return MessageControllerHelper.MessageIdTaken
+            return MessageControllerHelperForBot.WrongFormat
+        return MessageControllerHelperForBot.MessageIdTaken
 
 
     except Exception as e:
@@ -157,24 +158,26 @@ def _createReplyForScrum(message: CreateMessageSchema, author: MemberInDBSchema)
         newReply.author = author.mongoDocument
         newReply.replies = []
         newReply.parentMessage = parentMessage
+        newReply.isDiscussion = False
+
         newReply.save()
         if parentMessage.replies:
             parentMessage.replies.append(newReply)
         else:
             parentMessage.replies = [newReply]
         parentMessage.save()
-        return MessageControllerHelper.Success
+        return MessageControllerHelperForBot.Success
 
     except AssertionError as err :
         # caused when we improperly called for a discussion
         if str(err) == "not reply":
             logging.error("Tried to create a discussion for a reply, \
                 for the message {}".format(message))
-            return MessageControllerHelper.WrongFormat
+            return MessageControllerHelperForBot.WrongFormat
         
         logging.debug("Couldn't add reply because the parent message \
             with the id : {} doesn't exist".format(message.parentMessage))
-        return MessageControllerHelper.ParentMessageNotFound
+        return MessageControllerHelperForBot.ParentMessageNotFound
         
 
     except Exception as e:
@@ -284,7 +287,103 @@ def DeleteMessageInDatabase(message: DeleteMessageSchema, **kwargs):
             message="Internal Server Error")
         return False
     
-class MessageControllerHelper(Enum):
+
+def getDiscussionsWithLimitAndOffset(limit: int, offset: int, **kwargs):
+    
+    isResponseParsed = kwargs.get("isParsed", False)
+    try:
+        logging.info("trying to find discussions with limit={} and offest={}".format(limit, offset))
+        messages = Message.objects(isDiscussion=True).order_by("-timeStamp")
+        
+        if offset > len(messages):
+            # bad request, return a 400 ?
+            if not isResponseParsed:
+                return None
+            return parseControllerResponse(data=None, statuscode=400, 
+                error="Bad request.", message="No discussions exist for the given offset and limit")
+        
+        messages = messages[offset:offset+limit]
+        if not isResponseParsed:
+            return messages
+        
+        messages = messageListHelper(messages)
+        
+        resp = [message.dict(exclude={"mongoDocument"}) for message in messages]
+        
+        logging.debug("got the data {}, while querying for\
+            discussions with limit={} and offest={}".format(resp, limit, offset))
+
+        logging.info("Successfully found discussions with limit={} and offest={}".format(limit, offset))
+
+        return parseControllerResponse(data=resp, statuscode=200, 
+            message="Successfully found the discussions.")
+
+    except Exception as e:
+        helpfulErrorMessage = "Couldn't find discussions, with message and offest={} \
+            and limit={} due to {}".format(offset, limit, e)
+        logging.error(helpfulErrorMessage)
+
+        if isResponseParsed:
+            return parseControllerResponse(data=None, statuscode=500, 
+                message="Something went wrong try again later", error=helpfulErrorMessage)
+
+        raise helpfulErrorMessage
+
+
+def getAllDiscussionsByAnAuthor(authorId:str ,**kwargs):
+    """Gets all the discussions(NOT REPLIES) authored by the user with the given userId"""
+    isResponseParsed = kwargs.get("isParsed", False)
+
+    try:
+        _author = getMemberWithGivenId(id=authorId)
+
+        assert _author
+
+        author = ObjectId(authorId)
+        discussions = Message.objects(isDiscussion=True, author=author)
+        
+        if not isResponseParsed:
+            if not discussions:
+                return None
+            return discussions
+        
+        messages = messageListHelper(discussions)
+        resp = [message.dict(exclude={"mongoDocument"}) for message in messages]
+        
+        logging.debug("got the data {}, while querying for\
+            discussions authored by {}".format(resp, author))
+
+        logging.info("Successfully found discussions authored by {}".format(author))
+
+        return parseControllerResponse(data=resp, statuscode=200, 
+            message="Successfully found the discussions.")
+    
+    except AssertionError:
+        # a user with the give id doesn't exist
+        
+        logging.info("A user with the given authorId={} doesn't exist".format(authorId))
+
+        if not isResponseParsed:
+            return None
+        if isResponseParsed:
+            return parseControllerResponse(data=None, statuscode=404, 
+                message="User not found", error="A user with userId={} does not exist".format(authorId))
+        return None
+
+
+    except Exception as e:
+        helpfulErrorMessage = "Couldn't find the discussions authored by\
+            by the user with the userId={} due to {}".format(authorId, e)
+        
+        logging.error(helpfulErrorMessage)
+        
+        if isResponseParsed:
+            return parseControllerResponse(data=None, statuscode=500,
+                message="Something went wrong, try again later", error=helpfulErrorMessage)
+
+        raise helpfulErrorMessage
+    
+class MessageControllerHelperForBot(Enum):
     """Helper enum for message creation"""
     Success = auto()
     MessageIdTaken = auto()
