@@ -24,7 +24,6 @@ async function submit () {
     })
     .catch(err => {
         let error = 'Something went wrong, please try again!';
-        console.log(err.response);
         if (err.response) {
             error = err.response.data.detail.error;
         }

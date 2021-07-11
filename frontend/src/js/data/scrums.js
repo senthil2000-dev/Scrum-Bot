@@ -28,7 +28,6 @@ const startDateId = 'start_date_id'
 const endDateId = 'end_date_id' 
 
 function handleApplyDateRange(data){
-  console.log(data.detail)
   let startDate = data.detail.startDate.split('-').reverse().join('-');
   let endDate = data.detail.endDate.split('-').reverse().join('-');
   window.location.href = `/scrum/${startDate}/${endDate}`;
@@ -40,24 +39,15 @@ onMount(async () => {
     const response = await fetch(`${config.backendurl}/api/scrums/?start=${start}&end=${end}`);
     const resp = await response.json();
     if(resp.hasOwnProperty("error")) {
-      scrums = resp.data.scrums;  
-      console.log(scrums);
+      scrums = resp.data.scrums;
     }
     else {
       error = resp["detail"]["error"]["error"];
-      console.log(error);
     }
   }
   else {  
     const response = await fetch(`${config.backendurl}/api/scrums`);
     const resp = await response.json();
     scrums = resp.data.scrums;
-    console.log(scrums);
   }
 });
-
-// const addTalk = (e) => {
-//     e.preventDefault();
-//     console.log(talk);
-//     talks = [...talks, talk];
-// }

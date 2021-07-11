@@ -5,7 +5,6 @@ import config from '../../../env';
 let topics, filterval = "", filterFor = "";
 export let currentRoute;
 let {filterType, value} = currentRoute.namedParams;
-console.log(filterType, value);
 let title = "";
 let members, total;
 let pageArr = [];
@@ -16,7 +15,6 @@ if(filterType === '/' || filterType === undefined) {
 } 
 
 function navigate(page) {
-  console.log(total);
   if(page>0 && page<=total)
     window.location.href = `/pages/${page}`;
 }
@@ -88,7 +86,6 @@ onMount(async () => {
   else if(filterType == "author") {
     const response = await fetch(`${config.backendurl}/api/discussions/?author=${value}`);
     const resp = await response.json();
-    console.log(resp);
     if(resp.hasOwnProperty("detail")) {
       topics = [];
     }
