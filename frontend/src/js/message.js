@@ -1,4 +1,3 @@
-export let topic;
 export let name;
 export let upvotes;
 export let keywords;
