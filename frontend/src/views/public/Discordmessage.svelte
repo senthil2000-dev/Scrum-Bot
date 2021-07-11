@@ -1,27 +1,29 @@
 <script src='../../js/data/messages.js'></script>
 
-<Nav/>	
+<Nav/>
 <section class="container">
-    <Message
-        on:addtag={addtag}
-        id={message.id}
-        date={message.date}
-        name={message.name}
-        upvotes={message.upvotes}
-        topic={message.topic} 
-        desc={message.desc}
-        keywords = {message.keywords}/>
-    {#if replies.length === 0}
-		<p>No replies</p>
-	{:else}
-	    <h1>{replies.length} Replies</h1>
-		{#each replies as topic}
-		<Reply
-			id={topic.id}
-			name={topic.name}
-			desc={topic.desc}/>
-		{/each}
-	{/if}
+    {#if message !== undefined}
+        <Message
+            id={message.messageId}
+            date={message.timestamp}
+            username={message.author.name}
+            desc={message.message}
+            keywords = {message.tags}/>
+        {#if message.replies.length === 0}
+            <h1>No replies</h1>
+        {:else}
+            <h1>{message.replies.length + (message.replies.length == 1? " Reply": " Replies")}</h1>
+            {#each message.replies as reply}
+            <Reply
+                id={reply.messageId}
+                name={reply.author.name}
+                desc={reply.message}/>
+            {/each}
+        {/if}
+    {:else}
+        <h1>{error}</h1>
+    {/if}
 </section>
+
 
 <style src="../../css/disc.scss" lang="scss"></style>

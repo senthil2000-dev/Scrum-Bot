@@ -84,7 +84,7 @@ onMount(async () => {
     topics = resp.data.discussions;
   }
   else if(filterType == "author") {
-    const response = await fetch(`${config.backendurl}/api/discussions/?author=${value}`);
+    const response = await fetch(`${config.backendurl}/api/discussions/find/?author=${value}`);
     const resp = await response.json();
     if(resp.hasOwnProperty("detail")) {
       topics = [];
@@ -94,14 +94,14 @@ onMount(async () => {
     }
   }
   else {
-    let pageResp = paginate(32, value);
-    total = pageResp.totalPages;
-    pageArr = pageResp.pages;
-    const offset = pageResp.startIndex;
+    const offset = (value-1)*9  || 0;
     const limit = 9;
     title = "Sharing Knowledge...";
-    const response = await fetch(`${config.backendurl}/api/discussions/?limit=${limit}&offset=${offset}`);
+    const response = await fetch(`${config.backendurl}/api/discussions/find/?limit=${limit}&offset=${offset}`);
     const resp = await response.json();
     topics = resp.data.discussions;
+    let pageResp = paginate(resp.data.totalSize, value);
+    total = pageResp.totalPages;
+    pageArr = pageResp.pages;
   }
 });
