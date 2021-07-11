@@ -404,7 +404,7 @@ def getDiscussionsWithLimitAndOffset(limit: int, offset: int, **kwargs):
                 error="Bad request.",
                 message="No discussions exist for the given offset and limit",
             )
-
+        
         messages = messages[offset : offset + limit]
 
         if not isResponseParsed:

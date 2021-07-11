@@ -18,9 +18,9 @@
 			<div class="select">
 				<select name="slct" id="slct" bind:value="{filterFor}">
 					<option selected disabled>Choose an option</option>
-					<option>Pure CSS</option>
-					<option>No JS</option>
-					<option>Nice!</option>
+					{#each members as member}
+						<option value={member.id}>{member.name}</option>
+					{/each}
 				</select>
 			</div>
 		{:else if filterval == "search"}
@@ -34,7 +34,7 @@
 		{/if}
 	</div>
 	{#if topics.length === 0}
-		<p class="no-results">No active topics</p>
+		<p class="no-results">No results found</p>
 	{:else}
 		<section class="container">
 			{#each topics as topic}
@@ -48,22 +48,19 @@
 				keywords = {topic.tags}/>
 			{/each}		
 		</section>
-		<div class="pagination">
-		<a href="#/" class="prev">Prev</a>
-		<div class="pages">
-			<a href="#/">1</a>
-			<a href="https://www.google.com">2</a>
-			<a href="#/" class="active">3</a>
-			<a href="#/">4</a>
-			<a href="#/">5</a>
-			<a href="#/">6</a>
-			<a href="#/">7</a>
-			<a href="#/">8</a>
-			<a href="#/">9</a>
-			<a href="#/">10</a>
-		</div>
-		<a href="#/" class="next">Next</a>
-		</div>
+		{#if filterType == "pages"}
+			<div class="pagination">
+				<a href="#/" on:click={() => navigate(Number(value)-1)}>&laquo;</a>
+				{#each pageArr as page}
+					{#if page == value}
+						<a class = "active" href="#/">{page}</a>
+					{:else}
+						<a href="#/" on:click={() => navigate(page)}>{page}</a>
+					{/if}
+				{/each}
+				<a href="#/" on:click={() => navigate(Number(value)+1)}>&raquo;</a>
+			</div>
+		{/if}
 	{/if}
 {/if}
 <style src="../../css/home.scss" lang="scss"></style>
