@@ -42,12 +42,18 @@
           class="signup-button"
           disabled="{inProgress}"
         >
-          SIGN UP
+          {#if inProgress}
+            <img class="wait" src="https://i.stack.imgur.com/AfStP.gif" alt="loading..">
+          {:else}
+            SIGN IN
+          {/if}
         </button>
       </form>
       <p class="additional-act">Don't have an account? <a href="/register"><span>Register</span></a></p>
   </div>
 </section>
-
+<ToastContainer placement="bottom-right" let:data={data}>
+  <FlatToast {data} />
+</ToastContainer>
 <style src="../../css/login.scss" lang="scss"></style>
 <script src='../../js/login.js'></script>
