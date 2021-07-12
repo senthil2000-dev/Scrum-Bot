@@ -27,9 +27,6 @@ app.add_middleware(
 
 app.include_router(member_router, tags=["auth"], prefix="/auth")
 app.include_router(bot_router, tags=["bot"], prefix="/bot")
-
-# app.include_router(member_router, tags=["Auth"], prefix="/auth")
-# app.include_router(bot_router, tags=["Bot"], prefix="/bot")
 app.include_router(api_router, tags=["Api"], prefix="/api")
 
 app.add_event_handler("startup", createStartAppHandler(app))
