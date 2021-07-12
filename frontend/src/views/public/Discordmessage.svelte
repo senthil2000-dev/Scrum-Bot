@@ -12,8 +12,8 @@
         {#if message.replies.length === 0}
             <h1>No replies</h1>
         {:else}
-            <h1>{message.replies.length + (message.replies.length == 1? " Reply": " Replies")}</h1>
-            {#each message.replies as reply}
+            <h1>{replies.length + (replies.length == 1? " Reply": " Replies")}</h1>
+            {#each replies as reply}
             <Reply
                 id={reply.messageId}
                 name={reply.author.name}
