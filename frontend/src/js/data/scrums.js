@@ -1,5 +1,6 @@
 import Nav from '../../views/public/Nav.svelte';
 import Scrum from '../../views/public/Scrum.svelte';
+import FootNote from '../../views/public/FootNote.svelte';
 import { onMount } from 'svelte';
 import config from '../../../env';
 export let currentRoute;
@@ -34,7 +35,7 @@ function handleApplyDateRange(data){
 }
 
 onMount(async () => {
-  scrumMaster = "Bestin B Thomas";
+  scrumMaster = config.scrumMaster;
   if(start && end) {
     const response = await fetch(`${config.backendurl}/api/scrums/?start=${start}&end=${end}`);
     const resp = await response.json();

@@ -1,6 +1,8 @@
 <script src='../../js/data/home.js'></script>
 <Nav/>
-{#if topics === undefined}
+{#if error}
+	<h1 class="title-dis">{error}</h1>
+{:else if topics === undefined}
 	<div class="load-container">
 		<img class="loading" src="https://icon-library.com/images/loading-icon-transparent-background/loading-icon-transparent-background-12.jpg" alt="Loading...">
 	</div>
@@ -63,4 +65,5 @@
 		{/if}
 	{/if}
 {/if}
+<FootNote/>
 <style src="../../css/home.scss" lang="scss"></style>

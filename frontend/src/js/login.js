@@ -1,4 +1,5 @@
 import Nav from '../../views/public/Nav.svelte';
+import FootNote from '../../views/public/FootNote.svelte';
 import { auth } from '../../utils/auth.ts';
 import { toasts, ToastContainer, FlatToast } from 'svelte-toasts';
 import config from '../../../env';

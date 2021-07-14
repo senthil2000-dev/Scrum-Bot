@@ -1,5 +1,4 @@
 export let username;
 export let keywords;
-export let id;
 export let date;
 export let desc;

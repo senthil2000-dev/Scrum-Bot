@@ -4,7 +4,6 @@
 <section class="container">
     {#if message !== undefined}
         <Message
-            id={message.messageId}
             date={message.timestamp}
             username={message.author.name}
             desc={message.message}
@@ -15,7 +14,6 @@
             <h1>{replies.length + (replies.length == 1? " Reply": " Replies")}</h1>
             {#each replies as reply}
             <Reply
-                id={reply.messageId}
                 name={reply.author.name}
                 desc={reply.message}/>
             {/each}
@@ -24,6 +22,6 @@
         <h1>{error}</h1>
     {/if}
 </section>
-
+<FootNote/>
 
 <style src="../../css/disc.scss" lang="scss"></style>

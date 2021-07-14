@@ -34,40 +34,6 @@ a:hover {
   color: white;
 }
 
-.btn {
-  display: inline-block;
-  background: var(--light-color);
-  color: #333;
-  padding: 0.4rem 1.3rem;
-  font-size: 1rem;
-  border: none;
-  cursor: pointer;
-  margin-right: 0.5rem;
-  transition: opacity 0.2s ease-in;
-  outline: none;
-}
-
-.btn-dark {
-  background: var(--dark-color);
-  color: #fff;
-}
-
-.btn:hover {
-  opacity: 0.8;
-}
-
-input {
-  margin: 1.2rem 0;
-}
-
-input[type='text'] {
-  display: block;
-  width: 100% !important;
-  padding: 0.4rem;
-  font-size: inherit;
-  border: 1px solid #ccc;
-}
-
 h1 {
   color: mediumspringgreen;
   text-transform: uppercase;
@@ -78,18 +44,9 @@ h1 {
   font-family: 'Raleway';
 }
 
-h5 {
-    font-size: 1rem;
-    margin: 10px 0;
-}
-
 .card p {
     font-size: 20px;
     margin-bottom: 1rem;
-}
-
-.header, .star {
-    display: flex;
 }
 
 .tags {

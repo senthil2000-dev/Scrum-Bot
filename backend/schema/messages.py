@@ -73,7 +73,7 @@ class CreateMessageSchema(BaseModel):
                     "messageId": "unique id of the message",
                     "message": "content of the message, length should be more then 20 characters",
                     "author": "discord handle of the user",
-                    "tag": ["an", "array", "of", "all", "the", "tags"],
+                    "tags": ["an", "array", "of", "all", "the", "tags"],
                 },
             },
             "normalMessage": {

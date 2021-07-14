@@ -1,6 +1,7 @@
 import Nav from '../../views/public/Nav.svelte';
 import Message from '../../views/public/Message.svelte';
 import Reply from '../../views/public/Reply.svelte';
+import FootNote from '../../views/public/FootNote.svelte';
 import { onMount } from 'svelte';
 import config from '../../../env';
 export let currentRoute;

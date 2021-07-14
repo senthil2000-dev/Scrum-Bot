@@ -1,25 +1,25 @@
 <script src='../../js/data/scrums.js'></script>
 <style src="../../css/scrums.scss" lang="scss"></style>
+
 <Nav/>
-<div class="filter-wrap">
-    <div class="date-range">
-        <DateRangeSelect
-        {startDateMin}
-        {endDateMax}
-        {name}
-        {heading}
-        {labels}
-        {startDateId}
-        {endDateId}
-        on:onApplyDateRange={handleApplyDateRange} /> 
-    </div>
-   
-</div>
 
 {#if error}
     <p class="no-results">{error}</p>
 {/if}
 {#if scrums !== undefined}
+    <div class="filter-wrap">
+        <div class="date-range">
+            <DateRangeSelect
+            {startDateMin}
+            {endDateMax}
+            {name}
+            {heading}
+            {labels}
+            {startDateId}
+            {endDateId}
+            on:onApplyDateRange={handleApplyDateRange} /> 
+        </div>
+    </div>
     {#if scrums.length === 0}
         <p class="no-results">No scrums between {start} and {end}</p>
     {:else}
@@ -39,4 +39,5 @@
         </div>
     {/if}
 {/if}
+<FootNote/>
 

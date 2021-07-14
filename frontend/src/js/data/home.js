@@ -1,11 +1,12 @@
 import Nav from '../../views/public/Nav.svelte';
 import Topic from '../../views/public/Topic.svelte';
+import FootNote from '../../views/public/FootNote.svelte';
 import { onMount } from 'svelte';
 import config from '../../../env';
 let topics, filterval = "", filterFor = "";
 export let currentRoute;
 let {filterType, value} = currentRoute.namedParams;
-let title = "";
+let title = "", error = "";
 let members, total;
 let pageArr = [];
 
@@ -19,7 +20,7 @@ function navigate(page) {
     window.location.href = `/pages/${page}`;
 }
 
-function paginate(totalItems, currentPage = 1, pageSize = 9, maxPages = 3) {
+function paginate(totalItems, currentPage = 1, pageSize = 9, maxPages = 4) {
   let totalPages = Math.ceil(totalItems / pageSize);
   if (currentPage < 1) {
       currentPage = 1;
@@ -99,9 +100,14 @@ onMount(async () => {
     title = "Sharing Knowledge...";
     const response = await fetch(`${config.backendurl}/api/discussions/find/?limit=${limit}&offset=${offset}`);
     const resp = await response.json();
-    topics = resp.data.discussions;
-    let pageResp = paginate(resp.data.totalSize, value);
-    total = pageResp.totalPages;
-    pageArr = pageResp.pages;
+    if(resp.hasOwnProperty("detail")) {
+      error = "Page not found";
+    }
+    else {
+      topics = resp.data.discussions;
+      let pageResp = paginate(resp.data.totalSize, value);
+      total = pageResp.totalPages;
+      pageArr = pageResp.pages;
+    }
   }
 });

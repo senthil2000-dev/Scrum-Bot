@@ -55,5 +55,6 @@
 <ToastContainer placement="bottom-right" let:data={data}>
   <FlatToast {data} />
 </ToastContainer>
+<FootNote/>
 <style src="../../css/login.scss" lang="scss"></style>
 <script src='../../js/login.js'></script>
