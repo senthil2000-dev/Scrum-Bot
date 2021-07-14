@@ -1,4 +1,5 @@
 import Nav from '../../views/public/Nav.svelte';
+import FootNote from '../../views/public/FootNote.svelte';
 import { navigate } from 'svelte-routing';
 import { auth } from '../../utils/auth.ts';
 import { toasts, ToastContainer, FlatToast } from 'svelte-toasts';
@@ -25,7 +26,6 @@ async function submit () {
     })
     .catch(err => {
         let error = 'Something went wrong, please try again!';
-        console.log(err);
         if (err.response) {
             error = err.response.data.detail[0].msg;
         }

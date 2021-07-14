@@ -86,6 +86,22 @@ a {
   color: #fff;
 }
 
+.filter-btn {
+  height: 100%;
+  margin: 0 15px;
+  font-weight: 600;
+  color: currentColor;
+  color: mediumspringgreen;
+  background: unset;
+  border-radius: 10px;
+  border: 1px solid mediumspringgreen;
+}
+
+.filter-btn:hover {
+  background-color: mediumspringgreen;
+  color: black;
+}
+
 .btn-danger,
 .bg-danger,
 .badge-danger,
@@ -131,6 +147,47 @@ a {
   flex-direction: column;
   width: 80%;
   margin: 2rem auto;
+}
+
+.no-results {
+  color: mediumspringgreen;
+  font-size: 1.5rem;
+  margin: 2vh 6vw;
+}
+
+:focus {
+  outline: none;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+input[type="date"] {
+  padding: 5px;
+}
+
+input[type="date"] + button {
+  font-size: 1rem;
+  font-weight: 600;
+  background: unset !important;
+  border-radius: 10px;
+  border: 1px solid mediumspringgreen;
+}
+
+input[type="date"] + button:hover {
+  background: mediumspringgreen !important;
+  color: black;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  background-color: mediumspringgreen;
 }
 
 @media screen and (max-width: 600px) {

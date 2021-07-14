@@ -2,7 +2,7 @@
     <div class="navbar">
         <div class="mob-nav">
             <h1 class="navbar__logo">
-                <a href="/">Delta Scrumbot</a>
+                <a on:click="{home}" href="#/">Delta Scrumbot</a>
                 <div class="menu-wrapper" on:click="{cross}">
                     <div class="menu-line line1"></div>
                     <div class="menu-line line2"></div>

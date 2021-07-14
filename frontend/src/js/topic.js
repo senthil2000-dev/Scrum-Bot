@@ -1,6 +1,6 @@
 export let topic;
 export let name;
-export let upvotes;
+export let num;
 export let keywords;
 export let id;
 export let date;

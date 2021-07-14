@@ -1,73 +1,113 @@
 import Nav from '../../views/public/Nav.svelte';
 import Topic from '../../views/public/Topic.svelte';
+import FootNote from '../../views/public/FootNote.svelte';
 import { onMount } from 'svelte';
-let topics;
+import config from '../../../env';
+let topics, filterval = "", filterFor = "";
 export let currentRoute;
-let {filterType, value, limit, offset} = currentRoute.namedParams;
+let {filterType, value} = currentRoute.namedParams;
+let title = "", error = "";
+let members, total;
+let pageArr = [];
 
-if(limit === undefined)
-  limit = 10;
-if(offset === undefined)
-  offset = 0;  
-console.log(limit, filterType, value);
+if(filterType === '/' || filterType === undefined) {
+  filterType = "pages";
+  value = 1;
+} 
 
-onMount(async () => {  
-  const response = await fetch('https://swapi.dev/api/people/1'); //dummy url
-  const character = await response.json();
-  topics = [
-    {
-      id: 1,
-      name: character.name,
-      upvotes: 20,
-      topic: "react",
-      keywords: ["React", "webrtc", "lexer"],
-      date: '8 Jun 2021',
-      desc: 'Worked on ppl, reviewed prs in rembook and smart note'
-    },
-    {
-      id: 2,
-      name: "Pradeep",
-      upvotes: 20,
-      topic: "vue",
-      keywords: ["Vue", "webrtc", "lexer"],
-      date: '10 Jun 2021',
-      desc: 'Learnt a bit about communication protocols used in satellites for a gsoc pro'
-    },
-    {
-      id: 3,
-      name: "Bestin",
-      upvotes: 200,
-      topic: "lightning talks",
-      keywords: ["Algos", "peerjs", "parser"],
-      date: '9 Jun 2021',
-      desc: 'Since last mega scrum ,I worked on finishing touches of Dcop,PPL21 dailychallenges'
-    },
-    {
-      id: 4,
-      name: "Bestin",
-      upvotes: 200,
-      topic: "lightning talks",
-      keywords: ["Algos", "peerjs", "parser"],
-      date: '5 Jun 2021',
-      desc: 'exploring saucelabs for cross-browser testing , trying to integrate litcomponents in react'
-    },
-    {
-      id: 5,
-      name: "Pradeep",
-      upvotes: 20,
-      topic: "vue",
-      keywords: ["Vue", "webrtc", "lexer"],
-      date: '10 Jun 2021',
-      desc: 'Learnt a bit about communication protocols used in satellites for a gsoc pro'
-    },
-    {
-      id: 6,
-      name: "Ajitha",
-      upvotes: 20,
-      topic: "react",
-      keywords: ["React", "webrtc", "lexer"],
-      date: '8 Jun 2021',
-      desc: 'Worked on ppl, reviewed prs in rembook and smart note'
+function navigate(page) {
+  if(page>0 && page<=total)
+    window.location.href = `/pages/${page}`;
+}
+
+function paginate(totalItems, currentPage = 1, pageSize = 9, maxPages = 4) {
+  let totalPages = Math.ceil(totalItems / pageSize);
+  if (currentPage < 1) {
+      currentPage = 1;
+  } else if (currentPage > totalPages) {
+      currentPage = totalPages;
+  }
+
+  let startPage, endPage;
+  if (totalPages <= maxPages) {
+      startPage = 1;
+      endPage = totalPages;
+  } 
+  else {
+    let maxPagesBeforeCurrentPage = Math.floor(maxPages / 2);
+    let maxPagesAfterCurrentPage = Math.ceil(maxPages / 2) - 1;
+    if (currentPage <= maxPagesBeforeCurrentPage) {
+        startPage = 1;
+        endPage = maxPages;
+    } 
+    else if (currentPage + maxPagesAfterCurrentPage >= totalPages) {
+        startPage = totalPages - maxPages + 1;
+        endPage = totalPages;
+    } 
+    else {
+        startPage = currentPage - maxPagesBeforeCurrentPage;
+        endPage = currentPage + maxPagesAfterCurrentPage;
     }
-    ];
+  }
+
+  let startIndex = (currentPage - 1) * pageSize;
+  let endIndex = Math.min(startIndex + pageSize - 1, totalItems - 1);
+
+  let pages = Array.from(Array((endPage + 1) - startPage).keys()).map(i => startPage + i);
+
+  return {
+      totalItems: totalItems,
+      currentPage: currentPage,
+      pageSize: pageSize,
+      totalPages: totalPages,
+      startPage: startPage,
+      endPage: endPage,
+      startIndex: startIndex,
+      endIndex: endIndex,
+      pages: pages
+  };
+}
+
+onMount(async () => {
+  const memberResp = await fetch(`${config.backendurl}/api/members`);
+  const memjson = await memberResp.json();
+  members = memjson.data.members;
+
+  if(filterType == "scrum_no") {
+    const response = await fetch(`${config.backendurl}/api/scrums/${value}`);
+    const resp = await response.json();
+    topics = resp.data.scrum.messages;
+    title = "Scrum on " + resp.data.scrum.created_at;
+  }
+  else if(filterType == "search") {
+    const response = await fetch(`${config.backendurl}/api/discussions/search?tag=${value}`);
+    const resp = await response.json();
+    topics = resp.data.discussions;
+  }
+  else if(filterType == "author") {
+    const response = await fetch(`${config.backendurl}/api/discussions/find/?author=${value}`);
+    const resp = await response.json();
+    if(resp.hasOwnProperty("detail")) {
+      topics = [];
+    }
+    else {
+      topics = resp.data.discussions;
+    }
+  }
+  else {
+    const offset = (value-1)*9  || 0;
+    const limit = 9;
+    title = "Sharing Knowledge...";
+    const response = await fetch(`${config.backendurl}/api/discussions/find/?limit=${limit}&offset=${offset}`);
+    const resp = await response.json();
+    if(resp.hasOwnProperty("detail")) {
+      error = "Page not found";
+    }
+    else {
+      topics = resp.data.discussions;
+      let pageResp = paginate(resp.data.totalSize, value);
+      total = pageResp.totalPages;
+      pageArr = pageResp.pages;
+    }
+  }
 });
