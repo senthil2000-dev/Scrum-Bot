@@ -1,5 +1,5 @@
 from logging import error
-from fastapi import FastAPI, APIRouter, Request
+from fastapi import FastAPI, APIRouter, Request, Response
 from datetime import datetime
 from typing import Optional
 
@@ -61,7 +61,7 @@ def getAllScrumsInGivenInterval(start: str, end: str, request: Request):
     Both the dates(start and end) should be of the format **DD-MM-YYYY**."""
     authHandler.authenticateUser(request)
     ((startDate, endDate), errorMsg) = validateDateString(start, end)
-
+    
     if errorMsg:
         return ErrorResponseModel(error={"error": errorMsg}, statuscode=400)
 
@@ -194,11 +194,10 @@ def getDiscussionWithDiscussionId(discussionId: str, request: Request):
     response_description="Returns an array of all the members along with their details",
     response_model=GenericResponseSchema[GetAllMembersResponseModel],
 )
-def getAllMembers(request: Request):
+def getAllMembers(request: Request, response: Response):
     """Finds and returns an array of all the members along with their details."""
     authHandler.authenticateUser(request)
     resp = getAllMembersFromDB(isParsed=True)
-
     if resp["statusCode"] == 200:
         return ResponseModel(data={"members": resp["data"]}, message=resp["message"])
 
