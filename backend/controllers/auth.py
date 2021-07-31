@@ -81,7 +81,7 @@ def login(rollnumber, password):
 
             token = generateJwt({"id": str(user.objId), "rollno": user.rollno})
             return parseControllerResponse(
-                data={token: "token"},
+                data={"token": token},
                 statuscode=200,
                 message="User successfully authenticated",
             )

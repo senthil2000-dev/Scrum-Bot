@@ -69,23 +69,42 @@ function paginate(totalItems, currentPage = 1, pageSize = 9, maxPages = 4) {
 }
 
 onMount(async () => {
-  const memberResp = await fetch(`${config.backendurl}/api/members`);
+  let token = localStorage.getItem('token');
+  if(token == null)
+    window.location.href = '/login';
+  const memberResp = await fetch(`${config.backendurl}/api/members`, {
+    headers: {
+      'Authorization': 'Bearer ' + token
+    }
+  });
   const memjson = await memberResp.json();
   members = memjson.data.members;
 
   if(filterType == "scrum_no") {
-    const response = await fetch(`${config.backendurl}/api/scrums/${value}`);
+    const response = await fetch(`${config.backendurl}/api/scrums/${value}`, {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    });
     const resp = await response.json();
     topics = resp.data.scrum.messages;
     title = "Scrum on " + resp.data.scrum.created_at;
   }
   else if(filterType == "search") {
-    const response = await fetch(`${config.backendurl}/api/discussions/search?tag=${value}`);
+    const response = await fetch(`${config.backendurl}/api/discussions/search?tag=${value}`, {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    });
     const resp = await response.json();
     topics = resp.data.discussions;
   }
   else if(filterType == "author") {
-    const response = await fetch(`${config.backendurl}/api/discussions/find/?author=${value}`);
+    const response = await fetch(`${config.backendurl}/api/discussions/find/?author=${value}`, {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    });
     const resp = await response.json();
     if(resp.hasOwnProperty("detail")) {
       topics = [];
@@ -98,7 +117,11 @@ onMount(async () => {
     const offset = (value-1)*9  || 0;
     const limit = 9;
     title = "Sharing Knowledge...";
-    const response = await fetch(`${config.backendurl}/api/discussions/find/?limit=${limit}&offset=${offset}`);
+    const response = await fetch(`${config.backendurl}/api/discussions/find/?limit=${limit}&offset=${offset}`, {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    });
     const resp = await response.json();
     if(resp.hasOwnProperty("detail")) {
       error = "Page not found";

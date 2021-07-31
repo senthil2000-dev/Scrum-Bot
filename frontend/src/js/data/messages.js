@@ -19,7 +19,14 @@ function createReplies(conversations) {
 }
 
 onMount(async () => {
-  const resp = await fetch(`${config.backendurl}/api/discussions/${id}`);
+  let token = localStorage.getItem('token');
+  if(token == null)
+    window.location.href = '/login';
+  const resp = await fetch(`${config.backendurl}/api/discussions/${id}`, {
+    headers: {
+      'Authorization': 'Bearer ' + token
+    }
+  });
   const response = await resp.json();
   if(response.data) {
     message = response.data.discussion;

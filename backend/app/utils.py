@@ -1,5 +1,5 @@
 import enum
-from datetime import datetime
+from datetime import datetime, timedelta
 import logging
 
 from fastapi import Header, Depends, Request, HTTPException
@@ -27,18 +27,17 @@ def generateJwt(data: _JWTUser):
         tokenExpireTime = JWT_EXPIRE_TIME
 
         payload = JWTToken(**{"sub": data.copy()})
-
         if tokenExpireTime != 0:
-            payload.exp = datetime.now() + tokenExpireTime
+            payload.exp = datetime.now() + timedelta(seconds=tokenExpireTime)
 
         return jwt.encode(payload.dict(), jwtSecret, algorithm=algorithm)
     except Exception as e:
-        print("Couldnt generate jwt", e)
-        raise Exception(e)
+        print(e)
+        print("Couldnt generate jwt")
 
 
 def validateDateString(start: str, end: str):
-    """Validates the datesting given for querying scrums"""
+    """Validates the datestring given for querying scrums"""
 
     startDateStr = start.split("-")
     endDateStr = end.split("-")
@@ -52,15 +51,14 @@ def validateDateString(start: str, end: str):
         assert len(startDateStr) == 3 and len(endDateStr) == 3, "invalidDateString"
 
         assert int(endDateStr[2]) > 2000 and int(startDateStr[2]) > 2000, "invalidYear"
-
+        
         startDate = datetime(
             int(startDateStr[2]), int(startDateStr[1]), int(startDateStr[0])
         )
         endDate = datetime(
-            int(endDateStr[2]), int(endDateStr[1]), int(endDateStr[0]) + 1
+            int(endDateStr[2]), int(endDateStr[1]), int(endDateStr[0])
         )
-
-        assert endDate > startDate, "invalidValues"
+        assert endDate >= startDate, "invalidValues"
 
         return (startDate, endDate), None
 
@@ -73,6 +71,7 @@ def validateDateString(start: str, end: str):
             return (0, 0), "The start date should be greater than end date"
 
     except ValueError as _:
+        print(_)
         # we get this error when the invalid date is provided for datetime
         # so, return invalid dateStringErrorMessage
         return (0, 0), invalidDateStingErrorMessage

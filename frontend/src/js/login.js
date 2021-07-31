@@ -19,6 +19,7 @@ async function submit () {
     .then(response => {
         localStorage.setItem('scrumAuth', 'true');
         auth.set('true');
+        localStorage.setItem('token', response.data.data.token);
         window.location.href = '/';
         inProgress = false;
         error = null;
