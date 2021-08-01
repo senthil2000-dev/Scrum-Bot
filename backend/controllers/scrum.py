@@ -123,7 +123,6 @@ def findAllScrumsBetweenGivenInterval(start: datetime, end: datetime, **kwargs):
         scrums: List[ScrumInDBSchema] = findAllScrums(excludeMessages=True)
 
         # filter the scrums
-        print(scrums[0].created_at)
         scrums = [
             scrum
             for scrum in scrums
