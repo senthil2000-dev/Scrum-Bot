@@ -12,7 +12,7 @@ def getAllMembersFromDB(**kwargs):
     """Finds and returns all the registered members"""
 
     isResponseParsed = kwargs.get("isParsed", False)
-    logging.info("Trying to find the user with the id=", id)
+    logging.info("Trying to find all the users")
 
     try:
         rawMembersData = Member.objects()
@@ -72,7 +72,7 @@ def getMemberWithGivenId(id: Union[str, ObjectId], **kwargs):
 
     isResponseParsed = kwargs.get("isParsed", False)
 
-    logging.info("Trying to find the user with the id=", id)
+    logging.info("Trying to find the user with the id=" + id)
     try:
 
         user = Member.objects(id=id).first()
@@ -80,7 +80,7 @@ def getMemberWithGivenId(id: Union[str, ObjectId], **kwargs):
         assert user
 
         logging.debug("Found a user {}, with the id={}".format(memberHelper(user), id))
-        logging.info("Found the user with id=", id)
+        logging.info("Found the user with id=" + id)
 
         if not isResponseParsed:
             return MemberInDBSchema(**memberHelper(user))

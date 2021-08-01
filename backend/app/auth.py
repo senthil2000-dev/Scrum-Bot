@@ -135,7 +135,8 @@ class Authorization(object):
             logging.error("jwt token validation failed", validationError)
             return self._handle_Raise403Exception(3, tuple())
         except Exception as e:
-            logging.error("Decoding jwt failed, ", e)
+            print(e)
+            logging.error("Decoding jwt failed")
             raise HTTPException(
                 status_code=500, detail="Something went wrong. Try again later."
             )

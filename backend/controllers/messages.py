@@ -459,7 +459,6 @@ def getAllDiscussionsByAnAuthor(authorId: str, **kwargs):
 
     try:
         _author = getMemberWithGivenId(id=authorId)
-
         assert _author
 
         author = ObjectId(authorId)
@@ -528,7 +527,7 @@ def getMessageWithMessageId(messageId: str, **kwargs):
     """Gets the message with the given message id along with its replies"""
     isResponseParsed = kwargs.get("isParsed", False)
 
-    logging.info("Trying to find the message with the messageId=", messageId)
+    logging.info("Trying to find the message with the messageId=" + messageId)
 
     try:
         rawMessage = Message.objects(messageId=messageId).first()
@@ -541,7 +540,7 @@ def getMessageWithMessageId(messageId: str, **kwargs):
             )
         )
 
-        logging.info("Successfully found the message with the given id, ", messageId)
+        logging.info("Successfully found the message with the given id, " + messageId)
 
         if not isResponseParsed:
             return rawMessage
@@ -589,7 +588,7 @@ def getDiscussionsWithMatchingTags(tag: str, **kwargs):
     """Finds all the discussions contain the given tag"""
     isResponseParsed = kwargs.get("isParsed", False)
 
-    logging.info("Trying to find all the discussions with the matching tag: ", tag)
+    logging.info("Trying to find all the discussions with the matching tag: " + tag)
 
     # create regular expression for matching the tag
     tagExpression = re.compile(tag, re.IGNORECASE)

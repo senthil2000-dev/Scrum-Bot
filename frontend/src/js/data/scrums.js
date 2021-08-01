@@ -35,9 +35,16 @@ function handleApplyDateRange(data){
 }
 
 onMount(async () => {
+  let token = localStorage.getItem('token');
+  if(token == null)
+    window.location.href = '/login';
   scrumMaster = config.scrumMaster;
   if(start && end) {
-    const response = await fetch(`${config.backendurl}/api/scrums/?start=${start}&end=${end}`);
+    const response = await fetch(`${config.backendurl}/api/scrums/?start=${start}&end=${end}`, {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    });
     const resp = await response.json();
     if(resp.hasOwnProperty("error")) {
       scrums = resp.data.scrums;
@@ -47,7 +54,11 @@ onMount(async () => {
     }
   }
   else {  
-    const response = await fetch(`${config.backendurl}/api/scrums`);
+    const response = await fetch(`${config.backendurl}/api/scrums`, {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    });
     const resp = await response.json();
     scrums = resp.data.scrums;
   }
