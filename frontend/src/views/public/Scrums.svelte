@@ -21,7 +21,11 @@
         </div>
     </div>
     {#if scrums.length === 0}
-        <p class="no-results">No scrums between {start} and {end}</p>
+        {#if start && end}
+            <p class="no-results">No scrums between {start} and {end}</p>
+        {:else}
+            <p class="no-results">No scrums found</p>
+        {/if}
     {:else}
         {#if start && end}
             <p class="no-results">Scrums between {start} and {end}</p>
