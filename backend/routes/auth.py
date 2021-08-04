@@ -16,7 +16,7 @@ async def registerUser(response: Response, member: CreateMemberSchema = Body(...
     resp = register(data)
     response.status_code = resp["statusCode"]
     if resp["statusCode"] == 200:
-        return ResponseModel(resp["statusMessage"], resp["message"])
+        return ResponseModel(resp["data"], resp["message"])
     return ErrorResponseModel(resp["error"], resp["statusCode"], resp["message"])
 
 

@@ -128,7 +128,7 @@ class Authorization(object):
         except jwt.PyJWTError as decodeError:
             # unable to decode the token,
             # prolly becoz the user is sending random data
-            logging.error("Unable to decode jwt, " + decodeError)
+            logging.error("Unable to decode jwt, " + str(decodeError))
             return self._handle_Raise403Exception(3, tuple())
         except ValidationError as validationError:
 
