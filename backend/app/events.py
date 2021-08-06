@@ -13,7 +13,7 @@ from controllers.constants import initConstants
 
 def createStartAppHandler(app: FastAPI):
     async def startApp():
-        setup_logging()
+        # setup_logging()
         createConnection()
         initConstants()
 

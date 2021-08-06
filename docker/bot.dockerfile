@@ -7,4 +7,4 @@ RUN pip install -r requirements.txt
 
 COPY ./bot .
 
-CMD ["python", "scrum-bot.py"]
+CMD ["python", "-u", "scrum-bot.py"]
