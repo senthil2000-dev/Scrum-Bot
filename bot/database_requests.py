@@ -5,6 +5,7 @@ headers = {
     BOT_HEADER_KEY: f"{BOT_TOKEN_PREFIX} {BOT_SECRET_TOKEN}"
 }
 
+
 async def start_scrum() -> str:
     GET_URL = BASE_URL + "bot/scrum/start"
     async with aiohttp.ClientSession() as session:
@@ -25,7 +26,7 @@ async def end_scrum() -> str:
             return response_body["message"]
 
 
-async def add_scrum_entry(message_id, message, author, tags) -> bool:
+async def add_scrum_entry(message_id, message, author, tags) -> tuple[bool, str]:
     POST_URL = BASE_URL + "bot/message"
     scrum_entry = {
         "messageId": message_id,
@@ -36,9 +37,10 @@ async def add_scrum_entry(message_id, message, author, tags) -> bool:
     async with aiohttp.ClientSession() as session:
         async with session.post(POST_URL, json=scrum_entry, headers=headers, skip_auto_headers=None) as response:
             if response.status >= 400:
-                return False
+                response_body = await response.json()
+                return False, response_body["detail"]["message"]
             response_body = await response.json()
-            return response_body['code'] == 200
+            return response_body['code'] == 200, ""
 
 
 async def add_reply(message_id, content, author, parent_message_id) -> bool:
