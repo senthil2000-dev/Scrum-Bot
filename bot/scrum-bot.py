@@ -24,8 +24,6 @@ async def handle_reply(message: discord.Message, parent_message_id: int):
     success = await add_reply(message.id, message.content, f'{message.author.name}#{message.author.discriminator}', parent_message_id)
     if success:
         await message.add_reaction(Reactions.THUMBS_UP.value)
-    else:
-        await message.add_reaction(Reactions.F.value)
 
 
 @bot.command(brief='', description='')
@@ -45,10 +43,11 @@ async def scrum(ctx: commands.Context):
     if not keywords or not content:
         await message.add_reaction(Reactions.THUMBS_DOWN.value)
         return
-    if await add_scrum_entry(message.id, content, f'{ctx.author.name}#{ctx.author.discriminator}', keywords):
+    success, errorMessage = await add_scrum_entry(message.id, content, f'{ctx.author.name}#{ctx.author.discriminator}', keywords)
+    if success:
         await message.add_reaction(Reactions.THUMBS_UP.value)
-    else:
-        await message.add_reaction(Reactions.F.value)
+    elif errorMessage:
+        await message.reply(errorMessage)
 
 
 @bot.event
