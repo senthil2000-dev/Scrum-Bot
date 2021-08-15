@@ -76,61 +76,70 @@ onMount(async () => {
     headers: {
       'Authorization': 'Bearer ' + token
     }
+  }).catch(err => {
+    error = "Server error, try again later";
   });
-  const memjson = await memberResp.json();
-  members = memjson.data.members;
+  if(!error) {
+      const memjson = await memberResp.json();
+    if(memjson.hasOwnProperty("detail")) {
+      error = memjson["detail"]["error"];
+    }
+    else {
+      members = memjson.data.members;
 
-  if(filterType == "scrum_no") {
-    const response = await fetch(`${config.backendurl}/api/scrums/${value}`, {
-      headers: {
-        'Authorization': 'Bearer ' + token
+      if(filterType == "scrum_no") {
+        const response = await fetch(`${config.backendurl}/api/scrums/${value}`, {
+          headers: {
+            'Authorization': 'Bearer ' + token
+          }
+        });
+        const resp = await response.json();
+        topics = resp.data.scrum.messages;
+        title = "Scrum on " + resp.data.scrum.created_at;
       }
-    });
-    const resp = await response.json();
-    topics = resp.data.scrum.messages;
-    title = "Scrum on " + resp.data.scrum.created_at;
-  }
-  else if(filterType == "search") {
-    const response = await fetch(`${config.backendurl}/api/discussions/search?tag=${value}`, {
-      headers: {
-        'Authorization': 'Bearer ' + token
+      else if(filterType == "search") {
+        const response = await fetch(`${config.backendurl}/api/discussions/search?tag=${value}`, {
+          headers: {
+            'Authorization': 'Bearer ' + token
+          }
+        });
+        const resp = await response.json();
+        topics = resp.data.discussions;
       }
-    });
-    const resp = await response.json();
-    topics = resp.data.discussions;
-  }
-  else if(filterType == "author") {
-    const response = await fetch(`${config.backendurl}/api/discussions/find/?author=${value}`, {
-      headers: {
-        'Authorization': 'Bearer ' + token
+      else if(filterType == "author") {
+        const response = await fetch(`${config.backendurl}/api/discussions/find/?author=${value}`, {
+          headers: {
+            'Authorization': 'Bearer ' + token
+          }
+        });
+        const resp = await response.json();
+        if(resp.hasOwnProperty("detail")) {
+          topics = [];
+        }
+        else {
+          topics = resp.data.discussions;
+        }
       }
-    });
-    const resp = await response.json();
-    if(resp.hasOwnProperty("detail")) {
-      topics = [];
-    }
-    else {
-      topics = resp.data.discussions;
-    }
-  }
-  else {
-    const offset = (value-1)*9  || 0;
-    const limit = 9;
-    title = "Sharing Knowledge...";
-    const response = await fetch(`${config.backendurl}/api/discussions/find/?limit=${limit}&offset=${offset}`, {
-      headers: {
-        'Authorization': 'Bearer ' + token
+      else {
+        const offset = (value-1)*9  || 0;
+        const limit = 9;
+        title = "Sharing Knowledge...";
+        const response = await fetch(`${config.backendurl}/api/discussions/find/?limit=${limit}&offset=${offset}`, {
+          headers: {
+            'Authorization': 'Bearer ' + token
+          }
+        });
+        const resp = await response.json();
+        if(resp.hasOwnProperty("detail")) {
+          error = "Page not found";
+        }
+        else {
+          topics = resp.data.discussions;
+          let pageResp = paginate(resp.data.totalSize, value);
+          total = pageResp.totalPages;
+          pageArr = pageResp.pages;
+        }
       }
-    });
-    const resp = await response.json();
-    if(resp.hasOwnProperty("detail")) {
-      error = "Page not found";
-    }
-    else {
-      topics = resp.data.discussions;
-      let pageResp = paginate(resp.data.totalSize, value);
-      total = pageResp.totalPages;
-      pageArr = pageResp.pages;
     }
   }
 });

@@ -5,10 +5,11 @@ headers = {
     BOT_HEADER_KEY: f"{BOT_TOKEN_PREFIX} {BOT_SECRET_TOKEN}"
 }
 
+
 async def start_scrum() -> str:
     GET_URL = BASE_URL + "bot/scrum/start"
     async with aiohttp.ClientSession() as session:
-        async with session.get(GET_URL, headers=headers) as response:
+        async with session.get(GET_URL, headers=headers, skip_auto_headers=None) as response:
             response_body = await response.json()
             if response.status >= 400:
                 return response_body["detail"]["message"]
@@ -18,14 +19,14 @@ async def start_scrum() -> str:
 async def end_scrum() -> str:
     GET_URL = BASE_URL + "bot/scrum/end"
     async with aiohttp.ClientSession() as session:
-        async with session.get(GET_URL, headers=headers) as response:
+        async with session.get(GET_URL, headers=headers, skip_auto_headers=None) as response:
             response_body = await response.json()
             if response.status >= 400:
                 return response_body["detail"]["message"]
             return response_body["message"]
 
 
-async def add_scrum_entry(message_id, message, author, tags) -> bool:
+async def add_scrum_entry(message_id, message, author, tags) -> tuple[bool, str]:
     POST_URL = BASE_URL + "bot/message"
     scrum_entry = {
         "messageId": message_id,
@@ -34,11 +35,12 @@ async def add_scrum_entry(message_id, message, author, tags) -> bool:
         "tags": tags,
     }
     async with aiohttp.ClientSession() as session:
-        async with session.post(POST_URL, json=scrum_entry, headers=headers) as response:
+        async with session.post(POST_URL, json=scrum_entry, headers=headers, skip_auto_headers=None) as response:
             if response.status >= 400:
-                return False
+                response_body = await response.json()
+                return False, response_body["detail"]["message"]
             response_body = await response.json()
-            return response_body['code'] == 200
+            return response_body['code'] == 200, ""
 
 
 async def add_reply(message_id, content, author, parent_message_id) -> bool:
@@ -51,7 +53,7 @@ async def add_reply(message_id, content, author, parent_message_id) -> bool:
         "parentMessage": parent_message_id
     }
     async with aiohttp.ClientSession() as session:
-        async with session.post(POST_URL, json=add_reply_body, headers=headers) as response:
+        async with session.post(POST_URL, json=add_reply_body, headers=headers, skip_auto_headers=None) as response:
             if response.status >= 400:
                 return False
             response_body = await response.json()
@@ -61,7 +63,7 @@ async def add_reply(message_id, content, author, parent_message_id) -> bool:
 async def delete_message(message_id) -> bool:
     DELETE_URL = BASE_URL + "bot/message"
     async with aiohttp.ClientSession() as session:
-        async with session.delete(DELETE_URL, json={'messageId': message_id}, headers=headers) as response:
+        async with session.delete(DELETE_URL, json={'messageId': message_id}, headers=headers, skip_auto_headers=None) as response:
             if response.status >= 400:
                 return False
             response_body = await response.json()
@@ -77,7 +79,7 @@ async def update_message(message_id, content, tags=None) -> bool:
     if tags:
         update_message_body["tags"] = tags
     async with aiohttp.ClientSession() as session:
-        async with session.put(PUT_URL, json=update_message_body, headers=headers) as response:
+        async with session.put(PUT_URL, json=update_message_body, headers=headers, skip_auto_headers=None) as response:
             if response.status >= 400:
                 return False
             response_body = await response.json()

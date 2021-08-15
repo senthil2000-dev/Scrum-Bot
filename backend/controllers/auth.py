@@ -9,7 +9,7 @@ from app.utils import generateJwt
 # Add users to database
 def register(user):
     try:
-        logging.info("Creating a new user with the data " + user)
+        logging.info("Creating a new user with the data " + str(user))
         newUser = Member(rollno=user["rollno"])
         newUser.name = user["name"]
         newUser.password = user["password"]
@@ -38,13 +38,13 @@ def register(user):
         # So converting it into a string and checking if the rollno is there in the sub string
         if "rollno" in err.__str__():
             return parseControllerResponse(
-                "Failure",
-                11000,
-                'A user already exists with the rollno "{}"'.format(user["rollno"]),
-                "A document with the given data already exists",
+                data="Failure",
+                statusCode=11000,
+                error='A user already exists with the rollno "{}"'.format(user["rollno"]),
+                message="A document with the given data already exists",
             )
         return parseControllerResponse(
-            date="Failure",
+            data="Failure",
             statuscode=11000,
             error='A user already exists with the Discord Handle "{}"'.format(
                 user["discordHandle"]

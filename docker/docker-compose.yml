@@ -19,6 +19,8 @@ services:
     restart: always
     environment:
       MONGO_INITDB_DATABASE: ScrumBot
+    volumes:
+      - scrumbot_db:/data/db
     ports:
       - 26543:27017
   
@@ -30,3 +32,6 @@ services:
     ports:
       - 6544:5000
 
+volumes:
+  scrumbot_db:
+    external: true

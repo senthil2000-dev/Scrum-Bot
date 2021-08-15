@@ -12,7 +12,9 @@
         </div>
         <ul class="navbar__links desktop">
             <li><a href="/scrum">SCRUMS</a></li>
-            <li><a href="/register">REGISTER</a></li>
+            {#if !localStorage.getItem("token")}
+                <li><a href="/register">REGISTER</a></li>
+            {/if}
             {#if localStorage.getItem("token")}
                 <li><a href='#/' on:click={logout}>LOGOUT</a></li>
             {:else}
@@ -22,7 +24,9 @@
         {#if disp}
             <ul class="navbar__links mobile">
                 <li><a href="/scrum">SCRUMS</a></li>
-                <li><a href="/register">REGISTER</a></li>
+                {#if !localStorage.getItem("token")}
+                    <li><a href="/register">REGISTER</a></li>
+                {/if}
                 {#if localStorage.getItem("token")}
                     <li><a href='#/' on:click={logout}>LOGOUT</a></li>
                 {:else}
