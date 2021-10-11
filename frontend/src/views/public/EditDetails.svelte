@@ -19,6 +19,7 @@
             <label for="rollno">Rollno</label>
             <input
               class="text-input rollno-input"
+              disabled
               bind:value="{user.rollno}"
               type="text"
               placeholder="Rollno"
